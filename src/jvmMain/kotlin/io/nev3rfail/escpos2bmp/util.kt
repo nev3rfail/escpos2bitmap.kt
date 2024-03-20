@@ -1,4 +1,4 @@
-package io.nev3rfail.`escpos2bmp-kt`
+package io.nev3rfail.escpos2bmp
 
 import java.awt.Font
 
@@ -9,9 +9,9 @@ import java.nio.ByteBuffer
 import java.nio.charset.Charset
 import java.nio.charset.CodingErrorAction
 
-fun createNewImage(width: Int, height: Int): BufferedImage {
+/*fun createNewImage(width: Int, height: Int): BufferedImage {
     return BufferedImage(width, height, BufferedImage.TYPE_INT_RGB)
-}
+}*/
 
 fun BufferedImage.fill(value: Byte) {
     val g = this.createGraphics()

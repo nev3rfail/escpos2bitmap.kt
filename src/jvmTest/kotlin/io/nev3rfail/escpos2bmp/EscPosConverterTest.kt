@@ -1,4 +1,4 @@
-package io.nev3rfail.`escpos2bmp-kt`
+package io.nev3rfail.escpos2bmp
 
 import io.kotest.core.spec.style.StringSpec
 import qrcode.render.QRCodeGraphicsFactory
@@ -13,7 +13,8 @@ import javax.swing.JLabel
 import javax.swing.SwingUtilities
 
 
-inline fun getResource(r: String) = File(object {}.javaClass.getResource("/").toURI()).parentFile.parentFile.parentFile.toPath().resolve("resources/main").resolve(r).toFile()
+inline fun getResource(r: String) = File(object {}.javaClass.getResource("/").toURI())
+    .parentFile.parentFile.parentFile.parentFile.toPath().resolve("processedResources/jvm/main").resolve(r).toFile()
         .readBytes()
 
 

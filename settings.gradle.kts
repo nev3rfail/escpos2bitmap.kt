@@ -7,7 +7,7 @@ sourceControl {
 }
 
 
-pluginManagement {
+/*pluginManagement {
     repositories {
         google()
         gradlePluginPortal()
@@ -20,6 +20,6 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
     }
-}
+}*/
 
-rootProject.name = "escpos2bmp-kt"
+rootProject.name = "escpos2bmp"
