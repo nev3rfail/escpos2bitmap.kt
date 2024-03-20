@@ -3,6 +3,8 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 sourceControl {
     gitRepository(uri("https://github.com/mihonapp/bitmap.kt.git")) {
         producesModule("BitmapKt:bitmap")
+        producesModule("BitmapKt:bitmap-jvm")
+        producesModule("BitmapKt:bitmap-android")
     }
 }
 
