@@ -304,7 +304,7 @@ fun onGs2d(buff: ByteArray, state: EscPosState, idx: IntArray) {
             val qrCode = QRCode(state.qrBuff.toByteArray().decodeToString(), state.qrSize.toInt() )
             //val qrWidth = state.config.maxWidth
 
-            val img = Bitmap.createBitmap(state.config.maxWidth, qrCode.computedSize, Bitmap.Config.RGB_565)
+            val img = Bitmap.zeroed(state.config.maxWidth, qrCode.computedSize)
 
             val canvas = Canvas(img)
             val qrCodeWidth = qrCode.computedSize

@@ -12,7 +12,7 @@ actual fun Bitmap.drawText(
     text: String
 ) {
     val g = image.createGraphics() as Graphics2D
-    g.color = Color.BLUE // Assuming the text color is blue as in the Rust example
+    g.color = Color.BLACK // Assuming the text color is blue as in the Rust example
     g.font = font.inner.deriveFont(scale) // Set font size based on scale
     g.drawString(text, pos.first, pos.second + g.fontMetrics.ascent) // Adjust y position by font ascent for accurate positioning
     g.dispose()
@@ -23,7 +23,7 @@ actual fun Bitmap.drawLine(
     end: Pair<Int, Int>
 ) {
     val g = image.createGraphics()
-    g.color = Color.BLUE // Assuming the line color is blue as in the Rust example
+    g.color = Color.BLACK // Assuming the line color is blue as in the Rust example
     g.drawLine(start.first, start.second, end.first, end.second)
     g.dispose()
    // ("" as Bitmap).image.graphics.drawImage(slice, 0, y, null)
