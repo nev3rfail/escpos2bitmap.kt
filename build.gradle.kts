@@ -40,11 +40,9 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation("io.github.g0dkar:qrcode-kotlin:4.1.1")
-            api("BitmapKt:bitmap") {
-                version {
-                    branch = "main"
-                }
-            }
+            //api(project("BitmapKt:bitmap"))
+
+            //api(project(":bitmap:BitmapKt"))
         }
         commonTest.configure {
             /*kotlin {
@@ -52,17 +50,19 @@ kotlin {
             }*/
         }
         commonTest.dependencies {
+            implementation(kotlin("test")) // Brings all the platform dependencies automatically
             implementation("io.kotest:kotest-assertions-core:5.8.1") // For assertions
         }
 
-        /*jvmMain.dependencies {
-            implementation("BitmapKt:bitmap") {
+        jvmMain.dependencies {
+            /*implementation("BitmapKt:bitmap") {
                 version {
                     branch = "main"
                 }
 
-            }
-        }*/
+            }*/
+            api(files("libs/bitmap-jvm.jar"))
+        }
         jvmTest.dependencies {
             implementation("io.kotest:kotest-runner-junit5:5.8.1") // For Kotest's JUnit5 runner
             implementation("io.kotest:kotest-framework-engine:5.8.1") // Test engine

@@ -41,7 +41,7 @@ class EscPosConverterTest : StringSpec({
             //.parse(imageBytes)
         val latch = CountDownLatch(1)
         // Display the image in a JFrame
-        SwingUtilities.invokeLater {
+        /*SwingUtilities.invokeLater {
             val frame = JFrame("Test Image")
             frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
             frame.addWindowListener(object : WindowAdapter() {
@@ -54,7 +54,7 @@ class EscPosConverterTest : StringSpec({
             frame.add(label)
             frame.pack()
             frame.isVisible = true
-        }
+        }*/
 
         // Since this is more of a manual test, there's no automatic assertion
         // Add any necessary assertions for automated testing or simply view the window that pops up
