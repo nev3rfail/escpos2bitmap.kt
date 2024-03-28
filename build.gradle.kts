@@ -1,3 +1,8 @@
+import com.android.build.gradle.internal.tasks.factory.dependsOn
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
+import java.io.FileNotFoundException
+
 plugins {
     id("com.android.library") version "8.2.0-beta05"//"8.3.1"
     kotlin("multiplatform") version "1.9.23"
@@ -45,8 +50,12 @@ kotlin {
     // iosSimulatorArm64()
 
     sourceSets {
+
+
         commonMain.dependencies {
             implementation("io.github.g0dkar:qrcode-kotlin:4.1.1")
+            implementation("org.jetbrains.kotlinx:kotlinx-io-core:0.3.1")
+            fancyZip("commonMain","libs/bitmap-common.jar")
         }
         commonTest.configure {
         }
@@ -56,7 +65,7 @@ kotlin {
         }
 
         jvmMain.dependencies {
-            api(files("libs/bitmap-jvm.jar"))
+            implementation(files("libs/bitmap-jvm.jar"))
         }
         jvmTest.dependencies {
             implementation("io.kotest:kotest-runner-junit5:5.8.1") // For Kotest's JUnit5 runner
@@ -65,8 +74,16 @@ kotlin {
         }
         androidMain.dependencies {
             //api(files("./libs/bitmap-release.aar"))
-            api(files("libs/bitmap-android.aar"))
+            implementation(files("libs/bitmap-android.aar"))
         }
+        val androidInstrumentedTest by getting {
+            dependencies {
+                implementation("androidx.test:core-ktx:1.5.0")
+                implementation("androidx.test:runner:1.5.2")
+                implementation("androidx.test.espresso:espresso-core:3.5.1")
+            }
+        }
+        androidInstrumentedTest.dependsOn(commonTest.get())
     }
 }
 android {
@@ -80,3 +97,46 @@ android {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
+
+fun KotlinDependencyHandler.fancyZip(srcSet: String, /*what: (Any) -> Dependency?, */zipFilePath: String) {
+    val sourceSetName = srcSet//name
+    val zipFile = File(zipFilePath)
+    if(!zipFile.exists()) {
+        throw FileNotFoundException(zipFilePath)
+    }
+    val project: Project = this@fancyZip.project
+
+    val taskName = "unzip${zipFile.nameWithoutExtension.split(Regex("[^A-Za-z0-9]")).joinToString("") {it.capitalize()}}"
+
+    val unzipped = project.layout.buildDirectory.dir("tmp/$taskName").get()
+    val unzipTask = project.tasks.register(taskName, Copy::class) {
+        val outputDir = project.file(unzipped)
+        from(project.zipTree(zipFile))
+        into(outputDir)
+    }
+
+    project.kotlin.sourceSets.maybeCreate(sourceSetName).kotlin.srcDir {
+        unzipped
+    }
+    project.tasks.whenTaskAdded {
+        if (name.matches(Regex("compile.*Kotlin.*")) || name == "ideaProject") {
+            dependsOn(unzipTask)
+        }
+
+        tasks.sourcesJar.configure {
+            dependsOn(unzipTask)
+        }
+    }
+}
+
+/*
+val unzipZip by tasks.registering(Copy::class) {
+    val zipFile = file("libs/*common.jar")
+    val outputDir = file("${layout.buildDirectory}/bitmap-common")
+
+    from(zipTree(zipFile))
+    into(outputDir)
+}
+*/
+
