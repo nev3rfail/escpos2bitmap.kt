@@ -1,6 +1,5 @@
 package io.nev3rfail.escpos2bmp
 
-import dev.mihon.bitmap.Bitmap
 
 expect class Font {
     val name: String
